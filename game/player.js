@@ -91,7 +91,7 @@ var Ennemi = function(name, color, position, direction) {
     this.life = 3;
     this.bullets = new Array();
     this.direction = direction;
-    this.speed = 0;
+    this.speed = 7;
 
     this.material = new THREE.MeshLambertMaterial({
         color: color,
@@ -106,4 +106,27 @@ var Ennemi = function(name, color, position, direction) {
     this.graphic.position.x = this.position.y;
 
     this.graphic.rotateOnAxis(new THREE.Vector3(0,0,1), this.direction+(3*Math.PI/2));
+};
+
+Ennemi.prototype.move = function () {
+    var moveTo = new THREE.Vector3(
+        this.speed * Math.cos(this.direction) + this.position.x,
+        this.speed * Math.sin(this.direction) + this.position.y,
+        this.graphic.position.z
+    );
+
+    this.position = moveTo;
+
+    if (this.position.x > 150)
+    {
+        this.speed *= -1;
+    }
+    else if (this.position.x < -150)
+    {
+        this.speed *= -1;
+    }
+
+    this.graphic.position.x = this.position.x;
+    this.graphic.position.y = this.position.y;
+
 };
