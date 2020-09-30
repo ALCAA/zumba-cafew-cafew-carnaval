@@ -1,8 +1,8 @@
-var Player = function(name, color, position, direction) {
+var Player = function(name, color, position, direction, life) {
 
     this.name = name;
     this.position = position;
-    this.life = 3;
+    this.life = life;
     this.bullets = new Array();
     this.direction = direction;
     this.speed = 0;
@@ -24,8 +24,7 @@ Player.prototype.dead = function () {
     this.graphic.position.z = this.graphic.position.z-0.1;
         //Nettoyage de la div container
         $("#container").html("");
-        jQuery('#'+this.name+' >.life').text("Tu es mort !");
-        init();
+        init(parseInt(jQuery('#'+this.name+' >.life').text()) -1);
 }
 
 Player.prototype.accelerate = function (distance) {
@@ -51,8 +50,8 @@ Player.prototype.displayInfo = function () {
 }
 
 Player.prototype.turnRight = function (angle) {
-    this.direction += angle;
-    this.graphic.rotateOnAxis(new THREE.Vector3(0,0,-1), +angle);
+    this.direction -= angle;
+    this.graphic.rotateOnAxis(new THREE.Vector3(0,0, 1), -angle);
 };
 
 Player.prototype.turnLeft = function (angle) {

@@ -1,4 +1,4 @@
-function init()
+function init(life)
 {
     // set some camera attributes
     var VIEW_ANGLE = 45,
@@ -23,7 +23,7 @@ function init()
     $container.append(renderer.domElement);
 
     noGround = [];
-    ground = new Ground(0xffffff, WIDTH, HEIGHT, 10);
+    ground = new Ground(0xffffff, WIDTH, HEIGHT, 10, life);
 
     ennemi1 = new Ennemi("ennemi1", 0xffcacb, new THREE.Vector2(40, 40), 0);
     scene.add(player1.graphic);
@@ -33,7 +33,7 @@ function init()
     scene.add(light1);
 }
 
-function Ground(color, size_x, size_y, nb_tile)
+function Ground(color, size_x, size_y, nb_tile, life)
 {
     colors = Array(0xff0000, 0x00ff00, 0x0000ff, 0x000000);
 
@@ -60,7 +60,7 @@ function Ground(color, size_x, size_y, nb_tile)
                 tmpGround.position.y = y;
                 scene.add(tmpGround);
                 if (isInsert == false) {
-                    player1 = new Player("player1", 0xffff00, new THREE.Vector2(tmpGround.position.x, tmpGround.position.y), 0);
+                    player1 = new Player("player1", 0xffff00, new THREE.Vector2(tmpGround.position.x, tmpGround.position.y), 0, life);
                 }
             }
             else

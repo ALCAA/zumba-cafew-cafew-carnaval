@@ -44,6 +44,7 @@ function bullet_collision()
     //collision between bullet and walls
     for (var i = 0; i < player1.bullets.length; i++)
     {
+
         if (Math.abs(player1.bullets[i].position.x) >= WIDTH / 2 ||
             Math.abs(player1.bullets[i].position.y) >= HEIGHT / 2)
         {
