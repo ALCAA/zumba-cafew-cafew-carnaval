@@ -25,8 +25,9 @@ function init()
     noGround = [];
     ground = new Ground(0xffffff, WIDTH, HEIGHT, 10);
 
-    player1 = new Player("player1", 0xffff00, new THREE.Vector2(ground[0]), 0);
+    ennemi1 = new Ennemi("ennemi1", 0xffcacb, new THREE.Vector2(40, 40), 0);
     scene.add(player1.graphic);
+    scene.add(ennemi1.graphic);
 
     light1 = new Light("sun", 0xffffff, "0,0,340");
     scene.add(light1);
@@ -34,21 +35,22 @@ function init()
 
 function Ground(color, size_x, size_y, nb_tile)
 {
-    colors = Array(0xff0000, 0x00ff00, 0x0000ff);
+    colors = Array(0xff0000, 0x00ff00, 0x0000ff, 0x000000);
 
     sizeOfTileX = size_x / nb_tile;
     minX = -(size_x/2);
     maxX = (size_x/2);
-    
+
     sizeOfTileY = size_y / nb_tile;
     minY = -(size_y/2);
     maxY = (size_y/2);
+    var isInsert = false;
 
     for (x = minX; x <= maxX; x = x+sizeOfTileX){
         for (y = minY; y <= maxY; y = y+sizeOfTileY){
 
             color = colors[Math.floor(Math.random()*colors.length)];
-       
+
             if (0x000000 != color)
             {
                 tmpGround = new THREE.Mesh(
@@ -57,7 +59,12 @@ function Ground(color, size_x, size_y, nb_tile)
                 tmpGround.position.x = x;
                 tmpGround.position.y = y;
                 scene.add(tmpGround);
+                if (isInsert == false) {
+                    player1 = new Player("player1", 0xffff00, new THREE.Vector2(tmpGround.position.x, tmpGround.position.y), 0);
+                }
             }
+            else
+                noGround.push([x, y]);
         }
     }
 }
