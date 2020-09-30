@@ -1,5 +1,7 @@
 var bulletTime1 = 0;
 
+var touch = 0;  
+
 var bullet_player1_material = new THREE.MeshLambertMaterial(
 {
     color: 0x00ff00, 
@@ -42,9 +44,17 @@ function collisions()
 function bullet_collision()
 {
     //collision between bullet and walls
+    var x = ennemi1.graphic.position.x + WIDTH / 2;
+    var y = ennemi1.graphic.position.y + HEIGHT / 2;
+
     for (var i = 0; i < player1.bullets.length; i++)
     {
-
+        var x_bullet = player1.bullets[i].position.x + WIDTH / 2;
+        var y_bullet = player1.bullets[i].position.y + HEIGHT / 2;
+        if ( x_bullet - x < 0.2 && y_bullet - y < 0.2) {
+            scene.remove(ennemi1.graphic);
+            touch = 1;
+        }
         if (Math.abs(player1.bullets[i].position.x) >= WIDTH / 2 ||
             Math.abs(player1.bullets[i].position.y) >= HEIGHT / 2)
         {
@@ -61,6 +71,8 @@ function player_collision()
     //collision between player and walls
     var x = player1.graphic.position.x + WIDTH / 2;
     var y = player1.graphic.position.y + HEIGHT / 2;
+    var x_ennemy = ennemi1.graphic.position.x + WIDTH / 2;
+    var y_ennemy = ennemi1.graphic.position.y + HEIGHT / 2;
 
     if ( x > WIDTH )
         player1.graphic.position.x -= x - WIDTH;
@@ -70,6 +82,10 @@ function player_collision()
         player1.graphic.position.y -= y - HEIGHT;
     if ( x < 0 )
         player1.graphic.position.x -= x;
+    if ((x - x_ennemy < 0.1 && y - y_ennemy < 0.1) && touch === 0)
+    {
+        player1.dead();
+    }
 
 }
 
